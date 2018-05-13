@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace的作用？  -->
+<mapper namespace="cn.lzx.dao.EmployeeDao">
+	
+	<resultMap id="EmployeeMap" type="Employee">
+		<id property="eid" column="eid"/>
+		<result property="ename" column="ename"/>
+		<result property="sex" column="sex"/>
+		<result property="birthday" column="birthday"/>
+		<result property="joinDate" column="joinDate"/>
+		<result property="eno" column="eno"/>
+		<result property="username" column="username"/>
+		<result property="password" column="password"/>
+		<association property="department" column="dno" javaType="cn.lzx.domin.Department"
+		 select="cn.lzx.dao.DepartmentDao.selectDepartmentById"/>
+	</resultMap>
+
+	<select id="findByNameAndPsw" parameterType="Employee" resultMap="EmployeeMap">
+	 select * from Employee where username=#{username} and password=#{password} 
+	</select>
+	
+	<select id="findByDid" parameterType="int" resultMap="EmployeeMap">
+	 select * from Employee where eid=#{eid}
+	</select>
+	
+	<update id="updateEmployee" parameterType="Employee">
+	 update Employee set ename=#{ename},sex=#{sex},birthday=#{birthday},joinDate=#{joinDate},
+	 eno=#{eno},username=#{username},password=#{password} where eid=#{eid}
+	</update>
+	
+	<insert id="insertEmployee" parameterType="Employee">
+	 insert into Employee(eid,ename,sex,birthday,joinDate,eno,username,password) values(#{eid},
+	 #{ename},#{sex},#{birthday},#{joinDate},#{eno},#{username},#{password})
+	</insert>
+	
+	<delete id="deleteEmployee" parameterType="int">
+	 delete from Employee where eid=#{eid}
+	</delete>
+	
+<!-- 	<select id="findByDid" parameterType="int" resultMap="EmployeeMap">
+	 select * from Employee where dno=#{dno}
+	</select> -->
+	
+	<select id="selectAllEmployeeByPage" parameterType="Map" resultMap="EmployeeMap">
+	select * from Employee 
+	</select>
+
+</mapper>

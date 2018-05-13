@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans  
+    xmlns="http://www.springframework.org/schema/beans"  
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context" 
+    xmlns:mvc="http://www.springframework.org/schema/mvc" 
+    xmlns:aop="http://www.springframework.org/schema/aop"   
+    xmlns:tx="http://www.springframework.org/schema/tx"  
+    xsi:schemaLocation="http://www.springframework.org/schema/beans 
+    http://www.springframework.org/schema/beans/spring-beans.xsd  
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd
+    http://www.springframework.org/schema/mvc 
+    http://www.springframework.org/schema/mvc/spring-mvc.xsd
+    http://www.springframework.org/schema/aop  
+    http://www.springframework.org/schema/aop/spring-aop.xsd 
+    http://www.springframework.org/schema/tx   
+    http://www.springframework.org/schema/tx/spring-tx.xsd">
+    
+     <context:component-scan base-package="cn.lzx.service"/>
+
+    
+    <!--引入数据库的连接配置  -->
+    <context:property-placeholder location="classpath:jdbc.properties"/>
+    
+<!-- 	<bean id="employeeController" class="cn.lzx.controller.EmployeeController">
+		<property name="employeeService" ref="employeeService"></property>
+		<property name="departmentService" ref="departmentService"></property>
+	</bean>
+	
+	<bean id="departmentService" class="cn.lzx.service.impl.DepartmentServiceImpl">
+		<property name="departmentDao" ref="departmentDao"></property>
+	</bean>
+	
+	<bean id="employeeService" class="cn.lzx.service.impl.EmployeeServiceImpl">
+		<property name="employeeDao" ref="departmentDao"></property>
+	</bean>
+	
+	<bean id="departmentDao" class="cn.lzx.dao.DepartmentDao"></bean>
+	
+	<bean id="employeeDao" class="cn.lzx.dao.EmployeeDao"></bean> -->
+    
+    
+    
+    <!--c3p0数据库连接池的配置  -->
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+    	<property name="driverClass" value="${jdbc.driver}"/>
+    	<property name="jdbcUrl" value="${jdbc.url}"/>
+    	<property name="user" value="${jdbc.username}"/>
+    	<property name="password" value="${jdbc.password}"/>
+    </bean>
+      
+    <!--sqlSessionFactory对象的配置  -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+    	<property name="dataSource" ref="dataSource"/>
+    	<property name="configLocation" value="classpath:mybatis-config.xml"/>
+    	<property name="typeAliasesPackage" value="cn.lzx.domin"/>
+    	<property name="mapperLocations" value="classpath*:cn/lzx/mapper/*.xml"/>
+    </bean>
+    
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+    	<!--后处理的方式，防止sqlSessionFactory的提前初始化 不是ref -->
+    	<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+    	<property name="basePackage" value="cn.lzx.dao"/>
+    </bean>
+
+</beans>

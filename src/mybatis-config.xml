@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<!--配置文件和映射文件的头部是不一样的  -->
+<configuration>
+<!-- 	<typeAliases>
+	<typeAlias alias="Department" type="cn.lzx.domin.Department"/>
+	<package name="cn.lzx.domin"/>
+	</typeAliases> -->
+
+<!--延迟加载  -->
+<settings>
+	<setting name="lazyLoadingEnabled" value="ture"/>
+	<setting name="aggressiveLazyLoading" value="false"/>
+</settings>
+<!--拦截器  -->
+<plugins>
+	<plugin interceptor="cn.lzx.interceptor.PageInterceptor">
+	</plugin>
+</plugins>
+
+<!-- 	<environments default="development">
+		<environment id="development">
+			<transactionManager type="JDBC"/>
+			<dataSource type="POOLED">
+			<property name="driver" value="com.mysql.jdbc.Driver"/>
+			<property name="url" value="jdbc:mysql://localhost:3306/ssh_employee"/>
+			<property name="usernmae" value="root"/>
+			<property name="password" value="123456"/>
+			</dataSource>	
+		</environment>
+	</environments> -->
+	
+	<mappers>
+		<package name="cn.lzx.mapper"/>
+	</mappers>
+</configuration>

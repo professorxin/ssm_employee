@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.lzx.dao.DepartmentDao">
+	<resultMap type="Department" id="DepartmentMap">
+		<id property="did" column="did"/>
+		<result property="dname" column="dname"/>
+		<result property="ddesc" column="ddesc"/>
+		<collection property="employee" javaType="ArrayList" column="did" ofType="Employee" 
+		select="cn.lzx.dao.EmployeeDao.findByDid" fetchType="lazy">
+		</collection>
+	</resultMap>
+	
+	
+	<insert id="insertDepartment" parameterType="Department">
+	 insert into Department(did,dname,ddesc) values(#{did},#{dname},#{ddesc})
+	</insert>
+	
+	<delete id="deleteDepartment" parameterType="int">
+	 delete from Department where did=#{did}
+	</delete>
+	
+	<update id="updateDepartment" parameterType="Department">
+	 update Department set dname=#{dname},ddesc=#{ddesc} where did=#{did}
+	</update>
+	
+	<select id="selectDepartmentById" parameterType="int" resultType="Department">
+	 select * from Department where did=#{did}
+	</select>
+	
+	<select id="selectAllDepartmentByPage" parameterType="Map" resultType="Department">
+	 select * from Department order by did
+	</select>
+	
+	<select id="selectAllDepartment" resultType="Department">
+	select * from Department
+	</select>
+</mapper>
